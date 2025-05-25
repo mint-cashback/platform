@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRightIcon } from "lucide-react";
 
-import { createClient } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/client";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -29,8 +29,6 @@ export default function AuthPage() {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const supabase = createClient();
-
     const loadingToast = toast.loading(`Sending an email to ${values.email}...`);
 
     const { data, error } = await supabase.auth.signInWithOtp({

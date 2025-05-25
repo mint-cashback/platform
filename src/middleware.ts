@@ -8,10 +8,10 @@ export async function middleware(request: NextRequest) {
   const supabase = createMiddlewareClient({ req: request, res: response });
 
   const {
-    data: {
-      session
-    }
+    data: { session },
   } = await supabase.auth.getSession();
+
+  console.log(session);
 
   if (request.nextUrl.pathname.startsWith("/user")) {
     if (!session) {
