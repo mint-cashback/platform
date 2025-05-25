@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, MailIcon } from "lucide-react";
 
 import { supabase } from "@/lib/supabase/client";
 
@@ -32,15 +32,17 @@ export default function AuthPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const loadingToast = toast.loading(`Sending an email to ${values.email}...`);
 
+    // Use a more reliable redirect URL structure
+    const redirectTo = `${window.location.origin}/callback`;
+    console.log("Setting redirect to:", redirectTo);
+
     const { data, error } = await supabase.auth.signInWithOtp({
       email: values.email,
       options: {
         shouldCreateUser: true,
-        emailRedirectTo: window.location.origin + "/user"
+        emailRedirectTo: redirectTo
       }
     })
-
-    console.log(window.location.origin + "/user");
 
     if (error) {
       console.error(error);
@@ -116,8 +118,12 @@ export default function AuthPage() {
             <h2 className="text-3xl font-extrabold mb-3">
               Check your email 📧
             </h2>
-            <p className="text-lg font-medium text-muted-foreground">
-              We've sent a login link to {form.getValues("email")}
+            <p className="text-lg font-medium text-muted-foreground mb-3">
+              We've sent a login link to your email! You can safely close this page now.
+            </p>
+            <p className="text-md font-semibold bg-muted border py-1 px-4 w-fit rounded-full flex flex-row gap-2 items-center">
+              <MailIcon size={16} />
+              {form.getValues("email")}
             </p>
           </>
         )}

@@ -20,26 +20,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<Tables<"users"> | null>(null);
 
   useEffect(() => {
+    console.log("AuthProvider: Setting up auth state listeners");
+    
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log("AuthProvider: Initial session check:", session ? "Session found" : "No session");
       setAuthUser(session?.user || null);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log("AuthProvider: Auth state changed:", event, session ? "Session exists" : "No session");
         setAuthUser(session?.user || null);
       }
     );
 
     return () => {
+      console.log("AuthProvider: Cleaning up auth state listeners");
       subscription.unsubscribe();
     };
   }, []);
 
   const fetchUser = async () => {
     if (!authUser?.id) {
+      console.log("AuthProvider: No auth user, clearing user data");
       setUser(null);
       return;
     }
+
+    console.log("AuthProvider: Fetching user data for auth user:", authUser.id);
 
     const { data, error } = await supabase
       .from("users")
@@ -48,10 +56,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .maybeSingle();
 
     if (error) {
-      console.error("Failed to fetch user", error);
+      console.error("AuthProvider: Failed to fetch user", error);
       return;
     }
 
+    console.log("AuthProvider: User data fetched:", data ? "User found" : "No user found");
     setUser(data);
   }
 
