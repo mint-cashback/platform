@@ -1,62 +1,72 @@
 {
-  "name": "platform",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "start": "next start",
-    "dev": "run-p dev:*",
-    "dev:plasmo": "plasmo dev",
-    "dev:next": "next dev --turbopack",
-    "build": "next build",
-    "build:plasmo": "plasmo build",
-    "build:next": "next build"
-  },
-  "dependencies": {
-    "@hookform/resolvers": "^5.0.1",
-    "@plasmohq/rps": "^1.8.7",
-    "@plasmohq/storage": "^1.15.0",
-    "@radix-ui/react-label": "^2.1.7",
-    "@radix-ui/react-slot": "^1.2.3",
-    "@radix-ui/react-tabs": "^1.1.12",
-    "@supabase/ssr": "^0.6.1",
-    "@supabase/supabase-js": "^2.49.8",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "lucide": "^0.511.0",
-    "lucide-react": "^0.511.0",
-    "next": "15.1.8",
-    "next-themes": "^0.4.6",
-    "plasmo": "^0.90.5",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-hook-form": "^7.56.4",
-    "sonner": "^2.0.3",
-    "tailwind-merge": "^3.3.0",
-    "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.25.28"
-  },
-  "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@types/chrome": "0.0.258",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "autoprefixer": "^10.4.21",
-    "eslint": "^9",
-    "eslint-config-next": "15.1.8",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
-  },
-  "manifest": {
-    "host_permissions": [
-      "https://*/*",
-      "http://*/*"
-    ],
-    "permissions": [
-      "tabs",
-      "storage",
-      "activeTab"
-    ]
-  }
+    "name": "platform",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "start": "next start",
+        "dev": "run-p dev:*",
+        "dev:plasmo": "plasmo dev",
+        "dev:next": "next dev --turbopack",
+        "build": "next build",
+        "build:plasmo": "plasmo build",
+        "build:next": "next build"
+    },
+    "dependencies": {
+        "@hookform/resolvers": "^5.0.1",
+        "@plasmohq/rps": "^1.8.7",
+        "@plasmohq/storage": "^1.15.0",
+        "@radix-ui/react-label": "^2.1.7",
+        "@radix-ui/react-slot": "^1.2.3",
+        "@radix-ui/react-tabs": "^1.1.12",
+        "@supabase/ssr": "^0.6.1",
+        "@supabase/supabase-js": "^2.49.8",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "lucide": "^0.511.0",
+        "lucide-react": "^0.511.0",
+        "next": "15.1.8",
+        "next-themes": "^0.4.6",
+        "plasmo": "^0.90.5",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "react-hook-form": "^7.56.4",
+        "sonner": "^2.0.3",
+        "tailwind-merge": "^3.3.0",
+        "tailwindcss-animate": "^1.0.7",
+        "zod": "^3.25.28"
+    },
+    "devDependencies": {
+        "@eslint/eslintrc": "^3",
+        "@types/chrome": "0.0.258",
+        "@types/node": "^20",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+        "autoprefixer": "^10.4.21",
+        "eslint": "^9",
+        "eslint-config-next": "15.1.8",
+        "postcss": "^8",
+        "tailwindcss": "^3.4.1",
+        "typescript": "^5"
+    },
+    "manifest": {
+        "web_accessible_resources": [
+            {
+                "resources": [
+                    "assets/images/logos/mint.svg",
+                    "assets/images/logos/mint-cashback.svg",
+                    "assets/images/logos/mint.png"
+                ],
+                "matches": ["<all_urls>"]
+            }
+        ],
+        "host_permissions": [
+            "https://*/*",
+            "http://*/*"
+        ],
+        "permissions": [
+            "tabs",
+            "storage",
+            "activeTab"
+        ]
+    }
 }
