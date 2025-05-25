@@ -40,17 +40,33 @@ export default function AuthPage() {
       }
     })
 
-    toast.dismiss(loadingToast);
-
-    if (data) {
-      console.log(data);
-      toast.success("Email sent, check your inbox");
-      setSuccess(true);
-    }
-
     if (error) {
       console.error(error);
-      toast.error(error.message);
+      toast.error(error?.message || 'Failed to send email, please contact support');
+      return;
+    }
+
+    toast.success("Email sent, check your inbox");
+    setSuccess(true);
+
+    toast.dismiss(loadingToast);
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const response = await fetch("https://mint-cashback-backend.fly.dev/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: values.email,
+      }),
+    });
+
+    if (!response.ok) {
+      console.error(response);
     }
   }
 
@@ -100,7 +116,6 @@ export default function AuthPage() {
               We've sent a login link to {form.getValues("email")}
             </p>
           </>
-
         )}
       </div>
     </div>

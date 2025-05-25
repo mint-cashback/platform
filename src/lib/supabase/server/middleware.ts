@@ -1,34 +1,22 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-import { createServerClient } from "@supabase/ssr";
+import {
+  createMiddlewareClient,
+  SupabaseClient,
+} from "@supabase/auth-helpers-nextjs";
 
-import { isUserAdmin, isUserAuthenticated } from "./auth";
+async function isUserAuthenticated(supabase: SupabaseClient) {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  return !!session;
+}
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
-
-          response = NextResponse.next({ request });
-
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options)
-          );
-        },
-      },
-    }
-  );
+  const supabase = createMiddlewareClient({ req: request, res: response });
 
   const previousPage = request.headers.get("referer") || "/";
 
@@ -38,21 +26,9 @@ export async function updateSession(request: NextRequest) {
     }
   }
 
-  if (request.nextUrl.pathname.startsWith("/admin")) {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user || !(await isUserAdmin(supabase))) {
-      const redirectUrl = new URL("/auth/login", request.url);
-      redirectUrl.searchParams.set("from", previousPage);
-      return NextResponse.redirect(redirectUrl);
-    }
-  }
-
   if (request.nextUrl.pathname.startsWith("/user")) {
     if (!(await isUserAuthenticated(supabase))) {
-      const redirectUrl = new URL("/auth/login", request.url);
+      const redirectUrl = new URL("/auth", request.url);
       redirectUrl.searchParams.set("from", previousPage);
       return NextResponse.redirect(redirectUrl);
     }
