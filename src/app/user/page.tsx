@@ -1,19 +1,12 @@
 "use client"
 
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/hooks/use-auth";
 import { supabase } from "@/lib/supabase/client";
-import { User } from "@supabase/supabase-js";
-import { useEffect, useState } from "react";
 
 export default function UserPage() {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-    }
-    fetchUser();
-  }, [supabase]);
+  const { user } = useAuth();
+  
   return (
     <div>
       <h1>User Page</h1>
@@ -22,6 +15,8 @@ export default function UserPage() {
           <p>{user.email}</p>
         </div>
       )}
+
+      <Button onClick={() => supabase.auth.signOut()}>Log Out</Button>
     </div>
   )
 }

@@ -11,14 +11,22 @@ export async function middleware(request: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  console.log(session);
+  console.log("Session:", session);
 
   if (request.nextUrl.pathname.startsWith("/user")) {
     if (!session) {
+      console.log("User not logged in, redirecting to /auth");
       return NextResponse.redirect(new URL("/auth", request.url));
     }
 
     return response;
+  }
+
+  if (request.nextUrl.pathname === "/") {
+    if (session) {
+      console.log("User logged in, redirecting to /user");
+      return NextResponse.redirect(new URL("/user", request.url));
+    }
   }
 
   return response;

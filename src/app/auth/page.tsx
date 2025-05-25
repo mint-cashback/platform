@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -73,6 +74,8 @@ export default function AuthPage() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen px-6 bg-muted">
+      <Image src="/brand/mint-cashback.svg" alt="logo" width={250} height={100} className="mb-6" />
+
       <div className="w-full max-w-lg p-6 bg-background border rounded-2xl shadow-sm animate-in fade-in-0 zoom-in-95 duration-500">
 
         {!success ? (

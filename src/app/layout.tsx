@@ -2,6 +2,8 @@ import { Figtree } from "next/font/google";
 
 import { Toaster } from "sonner";
 
+import { AuthProvider } from "@/lib/providers/auth-provider";
+
 import "./globals.css";
 
 const figtree = Figtree({
@@ -17,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${figtree.className} antialiased`}>
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
 
         <Toaster richColors position="top-center" />
       </body>
