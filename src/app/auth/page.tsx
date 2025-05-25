@@ -37,8 +37,11 @@ export default function AuthPage() {
       email: values.email,
       options: {
         shouldCreateUser: true,
+        emailRedirectTo: window.location.origin + "/user"
       }
     })
+
+    console.log(window.location.origin + "/user");
 
     if (error) {
       console.error(error);
