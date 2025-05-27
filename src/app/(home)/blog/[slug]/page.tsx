@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { BlurFade } from "@/components/magicui/blur-fade";
 import { TextAnimate } from "@/components/magicui/text-animate";
 
-import { fetchPost } from "./data";
+import { fetchPost } from "../data";
 import { Post } from "./post";
 import { RelatedPosts } from "./related-posts";
 
@@ -28,10 +28,12 @@ export async function generateMetadata({
     };
   }
 
-  const content = (post.content as Record<string, unknown>) || {};
-  const excerpt = (content.excerpt as string) || "Read this blog post";
-  const imageUrl = (content.imageUrl as string) || null;
-  const author = (content.author as string) || "Mint Team";
+  const postBody = post.body || {};
+  const excerpt = typeof postBody === 'string'
+    ? postBody.substring(0, 160) + '...'
+    : (postBody as any)?.excerpt || "Read this blog post";
+  const imageUrl = post.image_url || null;
+  const author = (postBody as any)?.author || "Mint Team";
 
   return {
     title: `Mint Cashback | ${post.title}`,
@@ -56,7 +58,7 @@ export async function generateMetadata({
         description: excerpt,
         image: imageUrl,
         url: `https://mintcashback.com/blog/${post.slug}`,
-        datePublished: post.published_at,
+        datePublished: post.created_at,
         author: {
           "@type": "Person",
           name: author,
