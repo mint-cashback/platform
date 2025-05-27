@@ -8,7 +8,7 @@ import "@/app/globals.css";
 export default function Popup() {
   return (
     <div className="p-4">
-      <Tabs defaultValue="account" className="w-96">
+      <Tabs defaultValue="account" className="w-[400px]">
         <TabsList className="w-full">
           <TabsTrigger value="account" className="w-full">Account</TabsTrigger>
           <TabsTrigger value="password" className="w-full">Offers</TabsTrigger>
