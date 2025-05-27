@@ -75,10 +75,10 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen px-6 bg-muted">
+    <div className="flex flex-col items-center justify-center h-screen px-6 bg-muted dark:bg-background">
       <Image src="/brand/mint-cashback.svg" alt="logo" width={250} height={100} className="mb-6" />
 
-      <div className="w-full max-w-lg p-6 bg-background border rounded-2xl shadow-sm animate-in fade-in-0 zoom-in-95 duration-500">
+      <div className="w-full max-w-lg p-6 bg-background dark:bg-muted border rounded-2xl shadow-sm animate-in fade-in-0 zoom-in-95 duration-500">
 
         {!success ? (
           <Form {...form}>
@@ -99,7 +99,7 @@ export default function AuthPage() {
                   <FormItem>
                     <FormControl>
                       <div className="flex flex-row gap-3">
-                        <Input placeholder="Email" className="h-12 rounded-lg bg-input/20 flex-1" {...field} />
+                        <Input placeholder="Email" className="h-12 rounded-lg bg-input/20 dark:bg-background/30 flex-1" {...field} />
 
                         <Button type="submit" size="icon" className="rounded-lg size-12">
                           <ArrowRightIcon size={48} />

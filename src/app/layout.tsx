@@ -1,8 +1,9 @@
 import { Figtree } from "next/font/google";
 
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 import { AuthProvider } from "@/lib/providers/auth-provider";
+import { ThemeProvider } from "@/lib/providers/theme-provider";
 
 import "./globals.css";
 
@@ -17,13 +18,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head />
       <body className={`${figtree.className} antialiased`}>
         <AuthProvider>
-          {children}
-        </AuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+          >
+            {children}
 
-        <Toaster richColors position="top-center" />
+            <Toaster richColors position="top-center" />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
