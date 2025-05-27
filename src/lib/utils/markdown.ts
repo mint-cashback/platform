@@ -58,7 +58,10 @@ export function markdownToHtml(markdown: string): string {
   );
 
   // Better handling for unordered lists - first convert each list item (handling both * and -)
-  html = html.replace(/^[\*\-]\s+(.*?)$/gm, '<li class="ml-4 mb-1">$1</li>');
+  html = html.replace(
+    /^([\*\-])\s+(.*?)$/gm,
+    '<li class="flex items-start ml-4 mb-2"><span class="mr-3 ml-1">$1</span><span class="ml-1">$2</span></li>'
+  );
 
   // Then wrap consecutive list items in <ul> tags
   html = html.replace(/(<li.*?<\/li>)(\n\s*)?(<li)/g, "$1$3");
@@ -66,11 +69,14 @@ export function markdownToHtml(markdown: string): string {
   // Wrap list items in <ul> tags
   html = html.replace(
     /(^|\n)(<li.*?<\/li>)(\n|$)/g,
-    '\n<ul class="list-disc my-4 space-y-1 pl-5">$2</ul>\n'
+    '\n<ul class="my-4 space-y-2 pl-5">$2</ul>\n'
   );
 
   // Process ordered lists - first convert each list item
-  html = html.replace(/^\d+\.\s+(.*?)$/gm, '<li class="ml-4 mb-1">$1</li>');
+  html = html.replace(
+    /^\d+\.\s+(.*?)$/gm,
+    '<li class="list-decimal ml-6 mb-2">$1</li>'
+  );
 
   // Then wrap consecutive list items in <ol> tags
   html = html.replace(/(<li.*?<\/li>)(\n\s*)?(<li)/g, "$1$3");
@@ -78,7 +84,7 @@ export function markdownToHtml(markdown: string): string {
   // Wrap list items in <ol> tags
   html = html.replace(
     /(^|\n)(<li.*?<\/li>)(\n|$)/g,
-    '\n<ol class="list-decimal my-4 space-y-1 pl-5">$2</ol>\n'
+    '\n<ol class="my-4 space-y-1 pl-5 list-outside">$2</ol>\n'
   );
 
   // Process blockquotes
