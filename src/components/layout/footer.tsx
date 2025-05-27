@@ -4,7 +4,6 @@ const sections = [
   {
     title: "Company",
     links: [
-      { href: "/about", label: "About" },
       { href: "/faq", label: "FAQ" },
       { href: "/blog", label: "Blog" },
     ],
@@ -54,10 +53,16 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="pt-8 mt-8 border-t">
+        <div className="pt-8 mt-8 border-t flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <p className="text-lg font-medium text-muted-foreground">
-            © {currentYear} Mint CashBack. All rights reserved.
+            © {currentYear} Mint CashBack LLC. All rights reserved.
           </p>
+          <div className="text-md text-muted-foreground text-right">
+            <div>8 The Green STE B, Dover, DE 19901 United States</div>
+            <div>
+              <a href="mailto:team@mintcashback.com" className="hover:text-primary underline transition-colors">team@mintcashback.com</a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
