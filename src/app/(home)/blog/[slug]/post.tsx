@@ -22,7 +22,7 @@ export async function Post({ slug }: { slug: string }) {
     >
       <TextAnimate
         animation="slideDown"
-        className="text-muted-foreground"
+        className="text-muted-foreground mb-2"
         startOnView={false}
       >
         {new Date(post.created_at).toLocaleDateString()}
