@@ -16,7 +16,12 @@ const figtree = Figtree({
 export const metadata: Metadata = {
   title: "Mint Cashback",
   description: "Cashback, finally done right",
-  keywords: ["cashback", "rewards", "shopping", "earn", "mint", "mint cashback", "online shopping", "online purchases", "online shopping rewards", "online shopping cashback", "online shopping rewards", "online shopping cashback"],
+  keywords: [
+    "cashback", "rewards", "shopping", "earn", "mint", "mint cashback",
+    "online shopping", "online purchases", "online shopping rewards",
+    "online shopping cashback", "online shopping rewards",
+    "online shopping cashback"
+  ],
   authors: [{ name: "Mint Cashback", url: "https://mintcashback.com" }],
   creator: "Mint Cashback",
   publisher: "Mint Cashback",
