@@ -27,7 +27,7 @@ const MarkdownContent: FC<MarkdownContentProps> = ({ content, className = '' }) 
   return (
     <div
       ref={containerRef}
-      className={`prose prose-lg prose-neutral max-w-none ${className}`}
+      className={`markdown-content ${className}`}
       dangerouslySetInnerHTML={{ __html: markdownToHtml(content) }}
     />
   );

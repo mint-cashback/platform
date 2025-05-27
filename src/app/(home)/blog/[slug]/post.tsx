@@ -16,7 +16,7 @@ export async function Post({ slug }: { slug: string }) {
 
   return (
     <article
-      className="prose prose-lg prose-neutral max-w-none"
+      className="max-w-none"
       itemScope
       itemType="http://schema.org/BlogPosting"
     >

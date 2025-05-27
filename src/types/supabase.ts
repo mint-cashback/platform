@@ -164,7 +164,7 @@ export type Database = {
       blog_posts: {
         Row: {
           blog_post_category_id: number | null
-          body: Json
+          body: string
           created_at: string
           id: number
           image_url: string | null
@@ -173,7 +173,7 @@ export type Database = {
         }
         Insert: {
           blog_post_category_id?: number | null
-          body: Json
+          body: string
           created_at?: string
           id?: number
           image_url?: string | null
@@ -182,7 +182,7 @@ export type Database = {
         }
         Update: {
           blog_post_category_id?: number | null
-          body?: Json
+          body?: string
           created_at?: string
           id?: number
           image_url?: string | null
@@ -564,6 +564,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_auth_user_id_by_email: {
+        Args: { p_email: string }
+        Returns: string
+      }
       has_role: {
         Args:
           | { p_role_name: string; p_auth_uid: string }
