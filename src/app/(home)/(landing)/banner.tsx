@@ -190,7 +190,7 @@ export function Banner() {
           delay={0.6}
           once={true}
         >
-          Get rewarded for your purchases in just a click, completely free. 💸
+          Install Mint in a click. Shop as usual. Earn rewards effortlessly—with seamless integration and endless value.
         </TextAnimate>
 
         <Link href={isMobile ? "/auth" : "/download"} passHref>
