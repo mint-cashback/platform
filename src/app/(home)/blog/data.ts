@@ -1,12 +1,9 @@
 import { unstable_cache } from "next/cache";
 
 import { supabaseAdmin } from "@/lib/supabase/server";
-import { getEmojiFromText } from "@/lib/utils/markdown";
+import { getEmojiFromText } from "@/lib/utils/emoji";
 
 import { Post } from "./types";
-
-// Export BlogPost type to fix the error
-export type BlogPost = Post;
 
 export const fetchPost = async (slug: string): Promise<Post | null> => {
   const { data: post, error } = await supabaseAdmin
@@ -52,9 +49,7 @@ export const fetchPosts = async (): Promise<Post[]> => {
   });
 };
 
-export const fetchRelatedPosts = async (
-  postId: number
-): Promise<BlogPost[]> => {
+export const fetchRelatedPosts = async (postId: number): Promise<Post[]> => {
   // Simply fetch the latest 5 posts excluding the current post
   const { data: latestPosts, error } = await supabaseAdmin
     .from("blog_posts")
@@ -79,15 +74,3 @@ export const fetchRelatedPosts = async (
     return post;
   });
 };
-
-/**
- * Cached version of fetchRelatedPosts
- */
-export const fetchCachedRelatedPosts = unstable_cache(
-  fetchRelatedPosts,
-  ["related-blog-posts"],
-  {
-    revalidate: 3600,
-    tags: ["blog-posts"],
-  }
-);

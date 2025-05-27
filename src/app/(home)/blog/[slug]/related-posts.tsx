@@ -3,16 +3,17 @@ import Link from "next/link";
 
 import { BlurFade } from "@/components/magicui/blur-fade";
 
-import { fetchCachedPost, fetchCachedRelatedPosts, BlogPost } from "../data";
+import { fetchPost, fetchRelatedPosts } from "../data";
+import { Post } from "../types";
 
 export async function RelatedPosts({ slug }: { slug: string }) {
-  const post = await fetchCachedPost(slug);
-  
+  const post = await fetchPost(slug);
+
   if (!post) {
     return null;
   }
 
-  const relatedPosts = await fetchCachedRelatedPosts(post.id);
+  const relatedPosts = await fetchRelatedPosts(post.id);
 
   if (!relatedPosts.length) {
     return (
@@ -24,7 +25,7 @@ export async function RelatedPosts({ slug }: { slug: string }) {
 
   return (
     <div className="mt-4 space-y-6">
-      {relatedPosts.map((post: BlogPost, index: number) => (
+      {relatedPosts.map((post: Post, index: number) => (
         <BlurFade key={post.id} delay={0.1 * index}>
           <Link href={`/blog/${post.slug}`} className="flex flex-col space-y-2">
             {post.image_url ? (
