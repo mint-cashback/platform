@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { supabaseAdmin } from "@/lib/supabase/client";
+import { supabaseAdmin } from "@/lib/supabase/server";
 
 const SITE_URL = "https://mintcashback.com";
 
