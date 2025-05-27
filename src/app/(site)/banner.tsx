@@ -140,13 +140,9 @@ export function Banner() {
     }
   };
 
-  // Determine the button text and destination based on login status
-  const buttonText = user ? "Go to dashboard" : "Start saving today";
-  const buttonHref = user ? "/dashboard" : "/download";
-
   return (
     <div
-      className="sm:h-[85vh] py-28 flex flex-col items-center justify-center relative overflow-hidden px-6"
+      className="sm:h-[85vh] py-32 sm:py-28 flex flex-col items-center justify-center relative overflow-hidden px-6"
       ref={containerRef}
     >
       {allIcons.map((props, index) => (
@@ -197,7 +193,7 @@ export function Banner() {
           Get rewarded for your purchases in just a click, completely free. 💸
         </TextAnimate>
 
-        <Link href={buttonHref} passHref>
+        <Link href={isMobile ? "/auth" : "/download"} passHref>
           <motion.div
             variants={buttonVariants}
             initial="hidden"
@@ -205,7 +201,7 @@ export function Banner() {
             viewport={{ once: true }}
           >
             <Button className="mt-4 sm:mt-8 h-14 px-12 text-lg sm:text-xl relative z-10 transition-all hover:shadow-lg">
-              {buttonText} <ArrowRightIcon size={20} />
+              Start saving today <ArrowRightIcon size={20} />
             </Button>
           </motion.div>
         </Link>

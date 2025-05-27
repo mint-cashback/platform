@@ -22,7 +22,6 @@ import {
 
 const navItems = [
   { href: "/", label: "Home", icon: HomeIcon },
-  { href: "/about", label: "About", icon: BookOpenIcon },
   { href: "/faq", label: "FAQ", icon: MessageCircleQuestionIcon },
   { href: "/blog", label: "Blog", icon: BookIcon },
 ];
