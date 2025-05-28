@@ -8,17 +8,16 @@ export async function middleware(request: NextRequest) {
   // Log full URL including query parameters
   console.log("Middleware running for full URL:", request.url);
   console.log("Path:", request.nextUrl.pathname);
-  console.log("Query params:", Object.fromEntries(request.nextUrl.searchParams));
+  console.log(
+    "Query params:",
+    Object.fromEntries(request.nextUrl.searchParams)
+  );
 
-  // Handle the root path with code parameter - likely a misrouted callback
-  if (request.nextUrl.pathname === "/" && request.nextUrl.searchParams.has("code")) {
-    console.log("Detected code parameter in root URL, redirecting to /callback");
-    return NextResponse.redirect(new URL(`/callback?code=${request.nextUrl.searchParams.get("code")}`, request.url));
-  }
-
-  // Don't run middleware for the callback routes
-  if (request.nextUrl.pathname === "/auth/callback" || request.nextUrl.pathname === "/callback") {
-    console.log("Bypassing middleware for callback route:", request.nextUrl.pathname);
+  if (request.nextUrl.pathname === "/auth/callback") {
+    console.log(
+      "Bypassing middleware for callback route:",
+      request.nextUrl.pathname
+    );
     return response;
   }
 

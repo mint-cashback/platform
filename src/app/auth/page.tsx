@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,27 +22,24 @@ const formSchema = z.object({
 })
 
 export default function AuthPage() {
+  const searchParams = useSearchParams();
   const [success, setSuccess] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: ""
+      email: searchParams.get("email") || ""
     }
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const loadingToast = toast.loading(`Sending an email to ${values.email}...`);
 
-    // Use a more reliable redirect URL structure
-    const redirectTo = `${window.location.origin}/callback`;
-    console.log("Setting redirect to:", redirectTo);
-
     const { data, error } = await supabase.auth.signInWithOtp({
       email: values.email,
       options: {
         shouldCreateUser: true,
-        emailRedirectTo: redirectTo
+        emailRedirectTo: `${window.location.origin}/auth/callback`
       }
     })
 
@@ -128,6 +127,12 @@ export default function AuthPage() {
           </>
         )}
       </div>
+
+      {!success && (
+        <span className="text-sm mt-4 text-muted-foreground">
+          By clicking the button above, you agree to our <Link href="/terms" className="underline">Terms of Service</Link> and <Link href="/privacy" className="underline">Privacy Policy</Link>.
+        </span>
+      )}
     </div>
   )
 }
