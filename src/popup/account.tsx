@@ -22,9 +22,12 @@ export default function Account() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://mintcashback.com/api/users", {
+      const response = await fetch("https://mintcashback.com/users", {
         method: "POST",
-        body: JSON.stringify({ email }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email }),
       });
       const data = await response.json();
       console.log(data);
