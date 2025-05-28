@@ -41,7 +41,7 @@ export function UserHeader() {
     const fetchBalance = async () => {
       const { data, error } = await supabase
         .from("user_balance_entries")
-        .select("balance")
+        .select("balance_usd")
         .eq("user_id", user?.id)
         .order("created_at", { ascending: false })
         .limit(1);
@@ -56,7 +56,7 @@ export function UserHeader() {
         return;
       }
 
-      setBalance(data[0].balance);
+      setBalance(data[0].balance_usd);
     };
 
     fetchBalance();
@@ -66,13 +66,14 @@ export function UserHeader() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="flex flex-row items-center justify-center p-2 transition-all bg-white border rounded-full cursor-pointer hover:border-primary hover:ring-1 hover:ring-primary data-[state=open]:border-primary data-[state=open]:ring-1 data-[state=open]:ring-primary">
+        <div className="flex flex-row items-center justify-center p-2 transition-all bg-background dark:bg-muted/50 border rounded-full cursor-pointer hover:border-primary hover:ring-1 hover:ring-primary data-[state=open]:border-primary data-[state=open]:ring-1 data-[state=open]:ring-primary">
           <Button size="icon" className="mr-3">
             <UserIcon className="size-5" />
           </Button>
 
           <span className="mr-1 font-semibold">
-            ${balance.toFixed(2)}
+            $
+            {balance.toFixed(2)}
           </span>
           <ChevronDownIcon className="mr-1 size-5" />
         </div>
@@ -107,9 +108,8 @@ export function UserHeader() {
         <DropdownMenuItem
           className="p-4 font-medium rounded-none cursor-pointer text-md text-destructive"
           onClick={async () => {
-            // Handle logout
             await supabase.auth.signOut();
-            router.push("/auth/login");
+            router.push("/auth");
           }}
         >
           <LogOutIcon className="size-5 text-destructive" />
@@ -118,4 +118,4 @@ export function UserHeader() {
       </DropdownMenuContent>
     </DropdownMenu>
   )
-} 
+}
