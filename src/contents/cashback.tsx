@@ -1,15 +1,19 @@
 import type { PlasmoCSConfig } from "plasmo"
 
 export const config: PlasmoCSConfig = {
-  matches: ["http://localhost:3000/*"],
+  matches: ["<all_urls>"],
   css: ["font.css"],
 }
 
-const PlasmoOverlay = () => {
+const CashbackButton = () => {
+  console.log("CASHBACKKKK")
   return (
     <>
+      <div>
+        <h1>Cashback</h1>
+      </div>
     </>
   )
 }
 
-export default PlasmoOverlay
+export default CashbackButton

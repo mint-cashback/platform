@@ -22,7 +22,7 @@ export default function Account() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://mintcashback.com/users", {
+      const response = await fetch("https://mint-cashback-backend.fly.dev/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

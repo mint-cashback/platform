@@ -1,3 +1,5 @@
+import { usePort } from "@plasmohq/messaging/hook";
+
 import Account from "./account";
 
 import { Button } from "@/components/ui/button";
@@ -6,6 +8,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import "@/app/globals.css";
 
 export default function Popup() {
+  const offersPort = usePort("offers");
+  console.log("GAYY:", offersPort);
+
   return (
     <div className="p-4">
       <Tabs defaultValue="account" className="w-[400px]">
