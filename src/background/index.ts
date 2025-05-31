@@ -3,13 +3,10 @@ export {};
 console.log("background.ts");
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  console.log("onUpdated", tabId, changeInfo, tab);
   if (changeInfo.status === "complete" && tab.url) {
     const domain = new URL(tab.url).hostname;
-    console.log("Domain:", domain);
     
     const fetchurl = `https://mint-cashback-backend.fly.dev/brands?domain=${domain}`;
-    console.log("Fetching:", fetchurl);
     
     try {
       const response = await fetch(fetchurl, {
@@ -18,10 +15,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
           "Content-Type": "application/json",
         },
       });
-      console.log("Response status:", response.status);
-      console.log("Response headers:", response.headers.get('content-type'));
       
-      // Check if the response is ok (status 200-299)
       if (!response.ok) {
         console.error(`HTTP error! status: ${response.status}`);
         const errorText = await response.text();
@@ -31,6 +25,27 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
       
       const data = await response.json();
       console.log("Success! Data:", data);
+
+      const error = data.error ? data.error : null;
+      
+      // Safely extract cashback with null checks
+      const cashback = data.offers && Array.isArray(data.offers) && data.offers.length > 0 
+        ? data.offers[0].commission 
+        : null;
+
+      chrome.storage.local.set({
+        currentOffer: {
+          url: tab.url, 
+          domain: domain, 
+          cashback: cashback,
+          data: {
+            name: data.name || null,
+            image: data.image_url || null,
+            error: error,
+          }
+        }
+      });
+      
     } catch (error) {
       console.error("Fetch error:", error);
     }
