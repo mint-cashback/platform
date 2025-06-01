@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+
+import { getAffiliateLink, getActiveTab } from "@/lib/utils/extension";
+
 import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -49,9 +52,14 @@ export default function OffersPage() {
     }
   };
 
-  const handleClaim = () => {
+  const handleClaim = async () => {
+    const email = await chrome.storage.local.get("email");
+    const affiliateLink = await getAffiliateLink(currentOffer?.url || "", email.email || "");
     setIsClaimed(!isClaimed);
-    // TODO: Add claim logic here
+    const activeTab = await getActiveTab();
+    if (affiliateLink) {
+      chrome.tabs.update(activeTab.id || 0, { url: affiliateLink });
+    }
   };
 
   const handleClaimRewards = () => {
