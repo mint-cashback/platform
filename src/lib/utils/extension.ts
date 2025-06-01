@@ -1,3 +1,5 @@
+import { sendToContentScript } from "@plasmohq/messaging";
+
 export async function getAffiliateLink(url: string, email: string) {
   const fetchUrl = `https://mint-cashback-backend.fly.dev/brands/link?link=${url}&email=${email}`;
   try {
@@ -30,4 +32,13 @@ export async function checkDomain(domain: string) {
   });
   const data = await response.json();
   return data;
+}
+
+export async function openCashbackPopup(affiliateLink: string) {
+  sendToContentScript({
+    name: "show-cashback",
+    body: {
+      affiliateLink: affiliateLink,
+    }
+  })
 }

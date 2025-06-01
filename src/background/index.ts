@@ -1,6 +1,6 @@
 export {};
 
-import { checkDomain } from "@/lib/utils/extension";
+import { checkDomain, getAffiliateLink, openCashbackPopup } from "@/lib/utils/extension";
 
 console.log("background.ts");
 
@@ -32,6 +32,13 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
           }
         }
       });
+
+      if (!error) {
+        const email = await chrome.storage.local.get("email")
+        const affiliateLink = await getAffiliateLink(tab.url, email.email)
+        console.log(affiliateLink)
+        openCashbackPopup(affiliateLink)
+      }
   }
 });
 
