@@ -70,3 +70,16 @@ chrome.tabs.onActivated.addListener(async (activeInfo) => {
     }
   });
 });
+
+// Handle messages from content scripts
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.name === "navigate-to-affiliate-link") {
+    const { url } = message.body;
+    if (sender.tab?.id && url) {
+      chrome.tabs.update(sender.tab.id, { url: url });
+      sendResponse({ success: true });
+    } else {
+      sendResponse({ success: false, error: "No tab ID or URL provided" });
+    }
+  }
+});
