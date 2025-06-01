@@ -19,3 +19,15 @@ export async function getActiveTab() {
   const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
   return tabs[0];
 }
+
+export async function checkDomain(domain: string) {
+  const fetchUrl = `https://mint-cashback-backend.fly.dev/brands?domain=${domain}`;
+  const response = await fetch(fetchUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
+}

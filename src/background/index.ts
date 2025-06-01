@@ -1,39 +1,26 @@
 export {};
 
+import { checkDomain } from "@/lib/utils/extension";
+
 console.log("background.ts");
 
+//I want to fetch the offer details and update the currentOffer in the storage
+//when the tab is updated
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.status === "complete" && tab.url) {
     const domain = new URL(tab.url).hostname;
-    
-    const fetchurl = `https://mint-cashback-backend.fly.dev/brands?domain=${domain}`;
-    
-    try {
-      const response = await fetch(fetchurl, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      
-      if (!response.ok) {
-        console.error(`HTTP error! status: ${response.status}`);
-        const errorText = await response.text();
-        console.error("Error response:", errorText);
-        return;
-      }
-      
-      const data = await response.json();
-      console.log("Success! Data:", data);
 
-      const error = data.error ? data.error : null;
-      
-      // Safely extract cashback with null checks
-      const cashback = data.offers && Array.isArray(data.offers) && data.offers.length > 0 
-        ? data.offers[0].commission 
-        : null;
+    //Check if domain is in DB
+    const data = await checkDomain(domain);
+    
+    const error = data.error ? data.error : null;
+    
+    const cashback = data.offers && Array.isArray(data.offers) && data.offers.length > 0 
+      ? data.offers[0].commission 
+      : null;
 
-      chrome.storage.local.set({
+    //Update the currentOffer in the storage 
+    chrome.storage.local.set({
         currentOffer: {
           url: tab.url, 
           domain: domain, 
@@ -45,9 +32,34 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
           }
         }
       });
-      
-    } catch (error) {
-      console.error("Fetch error:", error);
-    }
   }
+});
+
+//I want to fetch the offer details and update the currentOffer in the storage
+//when the tab is activated
+chrome.tabs.onActivated.addListener(async (activeInfo) => {
+  const tab = await chrome.tabs.get(activeInfo.tabId);
+  
+  if (!tab.url) return;
+  
+  const domain = new URL(tab.url).hostname;
+  const data = await checkDomain(domain);
+  
+  const error = data.error ? data.error : null;
+  const cashback = data.offers && Array.isArray(data.offers) && data.offers.length > 0 
+    ? data.offers[0].commission 
+    : null;
+    
+  chrome.storage.local.set({
+    currentOffer: {
+      url: tab.url,
+      domain: domain,
+      cashback: cashback,
+      data: {
+        name: data.name || null,
+        image: data.image_url || null,
+        error: error,
+      },
+    }
+  });
 });
