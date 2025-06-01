@@ -21,6 +21,8 @@ export default function Account() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSaved(true);
+    chrome.storage.local.set({ email: email });
     try {
       const response = await fetch("https://mint-cashback-backend.fly.dev/users", {
         method: "POST",
@@ -31,7 +33,6 @@ export default function Account() {
       });
       const data = await response.json();
       console.log(data);
-      setSaved(true);
     } catch (error) {
       console.error(error);
     }

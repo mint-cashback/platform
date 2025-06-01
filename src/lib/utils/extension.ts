@@ -1,5 +1,5 @@
 export async function getAffiliateLink(url: string, email: string) {
-  const fetchUrl = `https://www.mint-cashback-backend.fly.dev/brands/link?url=${url}&email=${email}`;
+  const fetchUrl = `https://mint-cashback-backend.fly.dev/brands/link?link=${url}&email=${email}`;
   try {
     const response = await fetch(fetchUrl, {
       method: "GET",

@@ -5,6 +5,7 @@ import { getAffiliateLink, getActiveTab } from "@/lib/utils/extension";
 import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
 
 interface OfferData {
   name: string | null;
@@ -54,6 +55,19 @@ export default function OffersPage() {
 
   const handleClaim = async () => {
     const email = await chrome.storage.local.get("email");
+    console.log("email", email);
+    console.log("currentOffer", currentOffer?.url);
+
+    if (!email.email) {
+      toast.error("Please add your email to the extension");
+      return;
+    }
+
+    if (!currentOffer?.url) {
+      toast.error("Please visit a supported store to see cashback offers");
+      return;
+    }
+
     const affiliateLink = await getAffiliateLink(currentOffer?.url || "", email.email || "");
     setIsClaimed(!isClaimed);
     const activeTab = await getActiveTab();

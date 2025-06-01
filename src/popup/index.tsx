@@ -3,6 +3,7 @@ import Account from "./account";
 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Toaster } from "@/components/ui/sonner";
 
 import "@/app/globals.css";
 
@@ -22,6 +23,7 @@ export default function Popup() {
           <OffersPage />
         </TabsContent>
       </Tabs>
+      <Toaster position="top-center" />
     </div>
   );
 }
