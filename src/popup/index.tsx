@@ -23,7 +23,7 @@ export default function Popup() {
           <OffersPage />
         </TabsContent>
       </Tabs>
-      <Toaster position="top-center" />
+      <Toaster position="bottom-right" />
     </div>
   );
 }

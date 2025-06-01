@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { z } from "zod";
 
@@ -41,6 +41,13 @@ export default function Account() {
   const handleClaimRewards = () => {
     chrome.tabs.create({ url: "https://mintcashback.com/user" });
   };
+
+  useEffect(() => {
+    chrome.storage.local.get("email").then((result) => {
+      setEmail(result.email);
+      setSaved(true);
+    });
+  }, []);
 
   return (
     <div className="flex flex-col gap-4 w-full">
